@@ -1,0 +1,29 @@
+[2025-08-05 19:28:05.642] [engine_logger] [info] LogHandler initialized successfully.
+[2025-08-05 19:28:05.642] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
+[2025-08-05 19:28:05.642] [engine_logger] [info] --- Trading Engine Starting ---
+[2025-08-05 19:28:05.643] [engine_logger] [info] MockMarketDataHandler connected and started processing data/ticks.csv
+[2025-08-05 19:28:05.643] [engine_logger] [info] ScriptingInterface starting...
+[2025-08-05 19:28:05.643] [engine_logger] [info] Data publisher bound to tcp://*:5555
+[2025-08-05 19:28:05.643] [engine_logger] [info] Command subscriber bound to tcp://*:5556
+[2025-08-05 19:28:05.643] [engine_logger] [info] EngineCore is starting...
+[2025-08-05 19:28:07.144] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-08-05 19:28:07.144] [engine_logger] [info] Processing Order Request Event for BUY 50 AAPL
+[2025-08-05 19:28:07.144] [engine_logger] [info] Order successfully processed and assigned Engine ID: 1
+[2025-08-05 19:28:08.645] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-08-05 19:28:08.645] [engine_logger] [info] Processing Order Request Event for BUY 50 AAPL
+[2025-08-05 19:28:08.645] [engine_logger] [info] Order successfully processed and assigned Engine ID: 2
+[2025-08-05 19:28:10.147] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-08-05 19:28:10.147] [engine_logger] [info] Processing Order Request Event for BUY 50 AAPL
+[2025-08-05 19:28:10.147] [engine_logger] [info] Order successfully processed and assigned Engine ID: 3
+[2025-08-05 19:28:11.648] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-08-05 19:28:11.648] [engine_logger] [info] Processing Order Request Event for BUY 50 AAPL
+[2025-08-05 19:28:11.648] [engine_logger] [info] Order successfully processed and assigned Engine ID: 4
+[2025-08-05 19:28:13.149] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-08-05 19:28:13.149] [engine_logger] [info] Processing Order Request Event for BUY 50 AAPL
+[2025-08-05 19:28:13.150] [engine_logger] [info] Order successfully processed and assigned Engine ID: 5
+[2025-08-05 19:28:57.976] [engine_logger] [warning] Exit signal recived, shutting down engine.
+[2025-08-05 19:28:57.976] [engine_logger] [info] Shutdown event received. Terminating event loop.
+[2025-08-05 19:28:57.993] [engine_logger] [info] ScriptingInterface stopped.
+[2025-08-05 19:28:57.993] [engine_logger] [info] EngineCore has stopped.
+[2025-08-05 19:28:57.993] [engine_logger] [info] MockMarketDataHandler disconnected.
+[2025-08-05 19:28:57.993] [engine_logger] [info] --- Trading Engine Shutdown Complete ---

@@ -1,0 +1,29 @@
+{
+  "engine_settings": {
+    "mode": "mock",
+    "log_file_path": "logs/engine.log"
+  },
+
+  "risk_management": {
+    "max_order_size": 1000,
+    "max_position_value_usd": 50000.0,
+    "daily_pnl_loss_limit_usd": -1000.0
+  },
+
+  "api_keys": {
+    "paper_trading": {
+      "api_key": "YOUR_PAPER_API_KEY",
+      "api_secret": "YOUR_PAPER_API_SECRET"
+    },
+    "live_trading": {
+      "api_key": "YOUR_LIVE_API_KEY",
+      "api_secret": "YOUR_LIVE_API_SECRET"
+    }
+  },
+
+  "market_data_subscriptions": [
+    "AAPL",
+    "MSFT",
+    "GOOG"
+  ]
+}
