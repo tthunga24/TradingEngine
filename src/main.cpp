@@ -3,7 +3,9 @@
 #include "EngineCore.hpp"
 #include "OrderManager.hpp"
 #include "MockMarketDataHandler.hpp" 
-
+#include "MockMarketDataHandler.hpp"
+#include "IBKRMarketDataHandler.hpp"
+#include <memory>
 #include <csignal> 
 
 using namespace TradingEngine;
@@ -32,12 +34,13 @@ int main(int argc, char* argv[]) {
     EngineCore engine_core(order_manager);
     g_engine_core_ptr = &engine_core; 
 
-    MockMarketDataHandler market_data_handler(engine_core, "data/ticks.csv");
-    market_data_handler.connect(); 
+    std::unique_ptr<I_MarketDataHandler> market_data_handler;
+    market_data_handler = std::make_unique<IBKRMarketDataHandler>(engine_core, "127.0.0.1", 4002, 1);
+    market_data_handler -> connect(); 
 
     engine_core.run();
 
-    market_data_handler.disconnect();
+    market_data_handler -> disconnect();
 
     spdlog::info("--- Trading Engine Shutdown Complete ---");
 
