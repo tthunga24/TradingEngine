@@ -1,16 +1,17 @@
-[2025-08-12 22:35:04.600] [engine_logger] [info] LogHandler initialized successfully.
-[2025-08-12 22:35:04.601] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
-[2025-08-12 22:35:04.601] [engine_logger] [info] --- Trading Engine Starting ---
-[2025-08-12 22:35:04.601] [engine_logger] [info] Connecting to IBKR TWS/Gateway at 127.0.0.1:4002 with client ID 1...
-[2025-08-12 22:35:04.604] [engine_logger] [info] Successfully initiated IBKR connection.
-[2025-08-12 22:35:04.604] [engine_logger] [info] ScriptingInterface starting...
-[2025-08-12 22:35:04.604] [engine_logger] [info] Data publisher bound to tcp://*:5555
-[2025-08-12 22:35:04.604] [engine_logger] [info] Command subscriber bound to tcp://*:5556
-[2025-08-12 22:35:04.604] [engine_logger] [info] EngineCore is starting...
-[2025-08-12 22:36:06.122] [engine_logger] [warning] Exit signal recived, shutting down engine.
-[2025-08-12 22:36:06.122] [engine_logger] [info] Shutdown event received. Terminating event loop.
-[2025-08-12 22:36:06.156] [engine_logger] [info] ScriptingInterface stopped.
-[2025-08-12 22:36:06.156] [engine_logger] [info] EngineCore has stopped.
-[2025-08-12 22:36:06.608] [engine_logger] [info] Disconnected from IBKR.
-[2025-08-12 22:36:06.608] [engine_logger] [info] --- Trading Engine Shutdown Complete ---
-[2025-08-12 22:36:06.608] [engine_logger] [info] Disconnected from IBKR.
+[2025-08-25 08:21:03.529] [engine_logger] [info] LogHandler initialized successfully.
+[2025-08-25 08:21:03.537] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
+[2025-08-25 08:21:03.537] [engine_logger] [info] --- Trading Engine Starting ---
+[2025-08-25 08:21:03.538] [engine_logger] [info] Connecting to IBKR TWS/Gateway at 127.0.0.1:4002 with client ID 1...
+[2025-08-25 08:21:03.538] [engine_logger] [error] IBKR Error. ID: -1, Code: 502, Message: Couldn't connect to TWS. Confirm that "Enable ActiveX and Socket Clients" is enabled and connection port is the same as "Socket Port" on the TWS "Edit->Global Configuration...->API->Settings" menu. Live Trading ports: TWS: 7496; IB Gateway: 4001. Simulated Trading ports for new installations of version 954.1 or newer:  TWS: 7497; IB Gateway: 4002
+[2025-08-25 08:21:03.538] [engine_logger] [error] Failed to initiate IBKR connection.
+[2025-08-25 08:21:03.538] [engine_logger] [info] ScriptingInterface starting...
+[2025-08-25 08:21:03.539] [engine_logger] [info] Data publisher bound to tcp://*:5555
+[2025-08-25 08:21:03.539] [engine_logger] [info] Command subscriber bound to tcp://*:5556
+[2025-08-25 08:21:03.539] [engine_logger] [info] EngineCore is starting...
+[2025-08-25 08:21:08.328] [engine_logger] [warning] Exit signal recived, shutting down engine.
+[2025-08-25 08:21:08.328] [engine_logger] [info] Shutdown event received. Terminating event loop.
+[2025-08-25 08:21:08.351] [engine_logger] [info] ScriptingInterface stopped.
+[2025-08-25 08:21:08.351] [engine_logger] [info] EngineCore has stopped.
+[2025-08-25 08:21:08.351] [engine_logger] [info] Disconnected from IBKR.
+[2025-08-25 08:21:08.351] [engine_logger] [info] --- Trading Engine Shutdown Complete ---
+[2025-08-25 08:21:08.351] [engine_logger] [info] Disconnected from IBKR.
