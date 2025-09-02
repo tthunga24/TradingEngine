@@ -30,7 +30,16 @@ int main() {
     std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
     std::cout << "\n[CLIENT] --- Strategy is running ---" << std::endl;
-
+    
+    std::string command_topic = "SUBSCRIBE";
+    nlohmann::json payload_json;
+    payload_json["topic"] = "TICK.TSLA";
+    std::string payload_str = payload_json.dump();
+    
+    // 2. Send the two-part message
+    std::cout << "Sending subscription request for " << payload_json["topic"] << "..." << std::endl;
+    command_socket.send(zmq::buffer(command_topic), zmq::send_flags::sndmore);
+    command_socket.send(zmq::buffer(payload_str), zmq::send_flags::none); 
     while (true) {
         // --- Receive Market Data ---
         zmq::message_t topic_msg;

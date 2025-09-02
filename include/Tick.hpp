@@ -4,15 +4,12 @@
 #include <chrono>
 
 namespace TradingEngine {
-    
-    struct Tick {
-        std::string symbol;
 
-        double price;
+struct Tick {
+    std::string symbol;
+    double price;
+    uint64_t size;
+    std::chrono::system_clock::time_point timestamp;
+};
 
-        uint64_t size;
-
-        std::chrono::system_clock::time_point timestamp;
-    };
-
-} // namespace TradingEngine
+}

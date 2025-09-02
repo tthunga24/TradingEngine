@@ -6,63 +6,45 @@
 
 namespace TradingEngine {
 
-    template<typename T>
-    class ThreadSafeQueue {
-    public:
-        ThreadSafeQueue() = default;
-        ThreadSafeQueue(const ThreadSafeQueue&) = delete;
-        ThreadSafeQueue& operator=(const ThreadSafeQueue&) = delete;
+template<typename T>
+class ThreadSafeQueue {
+public:
+    ThreadSafeQueue() = default;
+    ThreadSafeQueue(const ThreadSafeQueue&) = delete;
+    ThreadSafeQueue& operator=(const ThreadSafeQueue&) = delete;
 
-        /**
-         * @brief Pushes an item onto the queue in a thread-safe manner.
-         * @param item The item to be added to the queue.
-         */
-        void push(T item) {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            m_queue.push(std::move(item));
-            m_cond_var.notify_one();
+    void push(T item) {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        m_queue.push(std::move(item));
+        m_cond_var.notify_one();
+    }
+
+    void wait_and_pop(T& item) {
+        std::unique_lock<std::mutex> lock(m_mutex);
+        m_cond_var.wait(lock, [this]{ return !m_queue.empty(); });
+        item = std::move(m_queue.front());
+        m_queue.pop();
+    }
+
+    bool try_pop(T& item) {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        if (m_queue.empty()) {
+            return false;
         }
+        item = std::move(m_queue.front());
+        m_queue.pop();
+        return true;
+    }
 
-        /**
-         * @brief Pops an item from the queue. Blocks if the queue is empty.
-         * @param item A reference to store the popped item.
-         */
-        void wait_and_pop(T& item) {
-            std::unique_lock<std::mutex> lock(m_mutex);
-            m_cond_var.wait(lock, [this]{ return !m_queue.empty(); });
-            
-            item = std::move(m_queue.front());
-            m_queue.pop();
-        }
+    bool empty() const {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        return m_queue.empty();
+    }
 
-        /**
-         * @brief Tries to pop an item from the queue without blocking.
-         * @param item A reference to store the popped item if successful.
-         * @return True if an item was popped, false if the queue was empty.
-         */
-        bool try_pop(T& item) {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            if (m_queue.empty()) {
-                return false;
-            }
-            item = std::move(m_queue.front());
-            m_queue.pop();
-            return true;
-        }
+private:
+    std::queue<T> m_queue;
+    mutable std::mutex m_mutex;
+    std::condition_variable m_cond_var;
+};
 
-        /**
-         * @brief Checks if the queue is empty.
-         * @return True if the queue is empty, false otherwise.
-         */
-        bool empty() const {
-            std::lock_guard<std::mutex> lock(m_mutex);
-            return m_queue.empty();
-        }
-
-    private:
-        std::queue<T> m_queue;
-        mutable std::mutex m_mutex;
-        std::condition_variable m_cond_var;
-    };
-
-} // namespace TradingEngine
+}

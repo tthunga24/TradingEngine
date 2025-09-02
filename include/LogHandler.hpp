@@ -12,24 +12,20 @@ public:
     LogHandler(const LogHandler&) = delete;
     LogHandler& operator=(const LogHandler&) = delete;
 
-    /**
-     * @brief Initializes the loggers. Must be called once at the start of the application.
-     * @param log_file_path The path to the file where logs will be saved.
-     */
     static void initialize(const std::string& log_file_path = "engine.log") {
         if (get_instance().m_initialized) {
-            return; // Already initialized
+            return;
         }
 
         try {
             std::vector<spdlog::sink_ptr> sinks;
             
             auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-            console_sink->set_level(spdlog::level::trace); // Log all levels to console
+            console_sink->set_level(spdlog::level::trace);
             sinks.push_back(console_sink);
 
             auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(log_file_path, true);
-            file_sink->set_level(spdlog::level::info); // Only log info and above to the file
+            file_sink->set_level(spdlog::level::info);
             sinks.push_back(file_sink);
 
             get_instance().m_logger = std::make_shared<spdlog::logger>("engine_logger", begin(sinks), end(sinks));

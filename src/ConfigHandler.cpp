@@ -7,13 +7,11 @@ bool ConfigHandler::initialize(const std::string& config_path) {
         spdlog::warn("ConfigHandler is already initialized.");
         return true;
     }
-
     std::ifstream config_file(config_path);
     if (!config_file.is_open()) {
         spdlog::critical("Failed to open configuration file: {}", config_path);
         return false;
     }
-
     try {
         instance.m_config_json = nlohmann::json::parse(config_file);
         instance.m_initialized = true;
@@ -29,7 +27,6 @@ ConfigHandler& ConfigHandler::get_instance() {
     static ConfigHandler instance;
     return instance;
 }
-
 
 std::string ConfigHandler::get_engine_mode() {
     return get_instance().get_value<std::string>("engine_settings.mode", "mock");
@@ -52,6 +49,5 @@ std::vector<std::string> ConfigHandler::get_market_data_subscriptions() {
     if (instance.m_config_json.contains("market_data_subscriptions")) {
         return instance.m_config_json.at("market_data_subscriptions").get<std::vector<std::string>>();
     }
-    return {}; 
+    return {};
 }
-
