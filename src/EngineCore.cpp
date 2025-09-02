@@ -70,6 +70,41 @@ void EngineCore::process_events() {
                 }
             }
             break;
+	case EventType::ORDER_REQUEST: {
+	    Order& order = std::get<Order>(event.data);
+    	    spdlog::info("EngineCore is processing an order request for {} {} {}", 
+                 side_to_string(order.side), order.quantity, order.symbol);
+
+    // --- Future Step: Add Risk Management Check ---
+    // if (!m_risk_manager->approve_order(order)) {
+    //     spdlog::warn("Order rejected by Risk Manager.");
+    //     return;
+    // }
+
+    // 1. Add the order to the OrderManager and get a unique ID
+    m_order_manager.add_new_order(order);
+
+    // 2. Convert our internal order to the IBKR format
+    ::Order ibkr_order = convert_to_ibkr_order(order);
+    ::Contract ibkr_contract = convert_to_ibkr_contract(order);
+
+    // 3. Send the order to the broker via the GatewayClient
+    if (m_gateway_client) {
+        m_gateway_client->place_order(order.order_id, ibkr_contract, ibkr_order);
+        spdlog::info("Order {} sent to the gateway.", order.order_id);
+    } else {
+        spdlog::warn("Gateway client is not available. Order not sent.");
+    }
+    break;
+	}	
+
+	case EventType::EXECUTION_REPORT: {
+    	    const auto& report = std::get<ExecutionReport>(event.data);
+    
+            m_order_manager.update_order_status(report);
+    
+    	    break;
+	}	
         }
     }
 }

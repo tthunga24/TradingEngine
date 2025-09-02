@@ -5,6 +5,7 @@
 #include "Order.h"
 #include "Contract.h"
 #include "Decimal.h"
+#include "Execution.h"
 
 namespace TradingEngine {
 
@@ -143,6 +144,35 @@ void IBKRGatewayClient::error(int id, int errorCode, const std::string& errorStr
     }
 }
 
+void IBKRGatewayClient::orderStatus(OrderId orderId, const std::string& status, Decimal filled,
+                                    Decimal remaining, double avgFillPrice, int permId,
+                                    int parentId, double lastFillPrice, int clientId,
+                                    const std::string& whyHeld, double mktCapPrice) {
+
+    spdlog::info("Order Status. Id: {}, Status: {}, Filled: {}, Remaining: {}, AvgFillPrice: {}",
+                 orderId, status, DecimalFunctions::decimalToString(filled),
+                 DecimalFunctions::decimalToString(remaining), avgFillPrice);
+
+    ExecutionReport report;
+    report.order_id = orderId;
+    report.fill_quantity = 0; // orderStatus doesn't always have fill details, execDetails does
+    report.fill_price = avgFillPrice;
+
+    Event report_event;
+    report_event.type = EventType::EXECUTION_REPORT;
+    report_event.data = report;
+    if (m_engine_core) {
+        m_engine_core->post_event(report_event);
+    }
+}
+
+void IBKRGatewayClient::execDetails(int reqId, const Contract& contract, const Execution& execution) {
+    spdlog::info("Execution Details. OrderId: {}, Symbol: {}, Side: {}, Quantity: {}, Price: {}", 
+                 execution.orderId, contract.symbol, execution.side, 
+                 DecimalFunctions::decimalToString(execution.shares), execution.price);
+    
+}
+
 void IBKRGatewayClient::openOrder(OrderId, const ::Contract&, const ::Order&, const ::OrderState&) {}
 void IBKRGatewayClient::pnlSingle(int, Decimal, double, double, double, double) {}
 void IBKRGatewayClient::completedOrder(const ::Contract&, const ::Order&, const ::OrderState&) {}
@@ -150,7 +180,6 @@ void IBKRGatewayClient::tickOptionComputation(TickerId, TickType, int, double, d
 void IBKRGatewayClient::tickGeneric(TickerId, TickType, double) {}
 void IBKRGatewayClient::tickString(TickerId, TickType, const std::string&) {}
 void IBKRGatewayClient::tickEFP(TickerId, TickType, double, const std::string&, double, int, const std::string&, double, double) {}
-void IBKRGatewayClient::orderStatus(OrderId, const std::string&, Decimal, Decimal, double, int, int, double, int, const std::string&, double) {}
 void IBKRGatewayClient::openOrderEnd() {}
 void IBKRGatewayClient::winError(const std::string& str, int lastError) { spdlog::error("IBKR WinError. Error: {}, Message: {}", lastError, str); }
 void IBKRGatewayClient::connectionClosed() { spdlog::warn("IBKR connection closed."); m_is_connected = false; m_signal.issueSignal(); }
@@ -161,7 +190,6 @@ void IBKRGatewayClient::accountDownloadEnd(const std::string&) {}
 void IBKRGatewayClient::contractDetails(int, const ContractDetails&) {}
 void IBKRGatewayClient::bondContractDetails(int, const ContractDetails&) {}
 void IBKRGatewayClient::contractDetailsEnd(int) {}
-void IBKRGatewayClient::execDetails(int, const Contract&, const Execution&) {}
 void IBKRGatewayClient::execDetailsEnd(int) {}
 void IBKRGatewayClient::updateMktDepth(TickerId, int, int, int, double, Decimal) {}
 void IBKRGatewayClient::updateMktDepthL2(TickerId, int, const std::string&, int, int, double, Decimal, bool) {}
