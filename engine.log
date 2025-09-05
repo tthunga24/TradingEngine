@@ -1,39 +1,42 @@
-[2025-09-02 18:30:26.245] [engine_logger] [info] LogHandler initialized successfully.
-[2025-09-02 18:30:26.245] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
-[2025-09-02 18:30:26.245] [engine_logger] [info] --- Trading Engine Starting ---
-[2025-09-02 18:30:26.246] [engine_logger] [info] Operating in LIVE/PAPER mode.
-[2025-09-02 18:30:26.246] [engine_logger] [info] ScriptingInterface starting...
-[2025-09-02 18:30:26.246] [engine_logger] [info] Data publisher bound to tcp://*:5555
-[2025-09-02 18:30:26.246] [engine_logger] [info] Command subscriber bound to tcp://*:5556
-[2025-09-02 18:30:26.246] [engine_logger] [info] Connecting to IBKR TWS/Gateway at 127.0.0.1:4002...
-[2025-09-02 18:30:26.249] [engine_logger] [info] Reader thread started.
-[2025-09-02 18:30:26.249] [engine_logger] [info] Waiting for connection confirmation from server...
-[2025-09-02 18:30:26.291] [engine_logger] [info] Connection to IBKR established. Next Valid Order ID: 1
-[2025-09-02 18:30:26.291] [engine_logger] [info] Setting market data type to Delayed (3).
-[2025-09-02 18:30:26.291] [engine_logger] [info] IBKR connection established and acknowledged.
-[2025-09-02 18:30:26.291] [engine_logger] [info] EngineCore event loop is starting...
-[2025-09-02 18:30:26.291] [engine_logger] [error] IBKR Error. ID: -1, Code: 2104, Message: Market data farm connection is OK:usfarm
-[2025-09-02 18:30:26.291] [engine_logger] [error] IBKR Error. ID: -1, Code: 2107, Message: HMDS data farm connection is inactive but should be available upon demand.ushmds
-[2025-09-02 18:30:26.291] [engine_logger] [error] IBKR Error. ID: -1, Code: 2158, Message: Sec-def data farm connection is OK:secdefil
-[2025-09-02 18:30:45.464] [engine_logger] [info] Received SUBSCRIBE request for topic: TICK.TSLA
-[2025-09-02 18:30:45.464] [engine_logger] [warning] Received unknown command topic: SUBSCRIBE
-[2025-09-02 18:30:45.464] [engine_logger] [info] Requesting market data for TSLA (TickerId 2000)
-[2025-09-02 18:30:45.900] [engine_logger] [error] IBKR Error. ID: 2000, Code: 10167, Message: Requested market data is not subscribed. Displaying delayed market data.
-[2025-09-02 18:30:46.262] [engine_logger] [info] Tick Size for TSLA: +300E+0
-[2025-09-02 18:31:06.238] [engine_logger] [info] Tick Size for TSLA: +1100E+0
-[2025-09-02 18:31:27.127] [engine_logger] [info] Tick Size for TSLA: +100E+0
-[2025-09-02 18:31:27.205] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
-[2025-09-02 18:31:27.205] [engine_logger] [info] EngineCore is processing an order request for BUY 50 AAPL
-[2025-09-02 18:31:27.205] [engine_logger] [info] Placing order with id 1
-[2025-09-02 18:31:27.205] [engine_logger] [info] Order 1 sent to the gateway.
-[2025-09-02 18:31:27.686] [engine_logger] [error] IBKR Error. ID: 1, Code: 399, Message: Order Message: BUY 50 AAPL NASDAQ.NMS Warning: Your order will not be placed at the exchange until 2025-09-03 09:30:00 US/Eastern.
-[2025-09-02 18:31:27.694] [engine_logger] [info] Order Status. Id: 1, Status: PreSubmitted, Filled: +0E+0, Remaining: +50E+0, AvgFillPrice: 0
-[2025-09-02 18:31:27.694] [engine_logger] [info] Updated order 1. New status: NEW. New position for AAPL: 0
-[2025-09-02 18:31:27.702] [engine_logger] [info] Order Status. Id: 1, Status: PreSubmitted, Filled: +0E+0, Remaining: +50E+0, AvgFillPrice: 0
-[2025-09-02 18:31:27.702] [engine_logger] [info] Updated order 1. New status: NEW. New position for AAPL: 0
-[2025-09-02 18:32:17.301] [engine_logger] [info] Tick Size for TSLA: +100E+0
-[2025-09-02 18:32:27.462] [engine_logger] [info] ScriptingInterface stopped.
-[2025-09-02 18:32:27.462] [engine_logger] [info] EngineCore has stopped.
-[2025-09-02 18:32:27.462] [engine_logger] [info] Reader thread finished.
-[2025-09-02 18:32:27.559] [engine_logger] [info] Disconnected from IBKR.
-[2025-09-02 18:32:27.559] [engine_logger] [info] --- Trading Engine Shutdown Complete ---
+[2025-09-04 23:16:03.834] [engine_logger] [info] LogHandler initialized successfully.
+[2025-09-04 23:16:03.835] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
+[2025-09-04 23:16:03.835] [engine_logger] [info] --- Trading Engine Starting ---
+[2025-09-04 23:16:03.835] [engine_logger] [info] Operating in LIVE/PAPER mode.
+[2025-09-04 23:16:03.835] [engine_logger] [info] ScriptingInterface starting...
+[2025-09-04 23:16:03.835] [engine_logger] [info] Data publisher bound to tcp://*:5555
+[2025-09-04 23:16:03.835] [engine_logger] [info] Command subscriber bound to tcp://*:5556
+[2025-09-04 23:16:03.835] [engine_logger] [info] Connecting to IBKR TWS/Gateway at 127.0.0.1:4002...
+[2025-09-04 23:16:03.900] [engine_logger] [info] Waiting for connection confirmation from server...
+[2025-09-04 23:16:03.900] [engine_logger] [info] Reader thread started.
+[2025-09-04 23:16:03.966] [engine_logger] [info] Connection to IBKR established. Next Valid Order ID: 3
+[2025-09-04 23:16:03.966] [engine_logger] [info] Setting market data type to Delayed (3).
+[2025-09-04 23:16:03.966] [engine_logger] [info] IBKR connection established and acknowledged.
+[2025-09-04 23:16:03.966] [engine_logger] [info] EngineCore event loop is starting...
+[2025-09-04 23:16:03.966] [engine_logger] [info] OrderManager's next valid ID set to: 3
+[2025-09-04 23:16:03.966] [engine_logger] [error] IBKR Error. ID: -1, Code: 2104, Message: Market data farm connection is OK:usfarm
+[2025-09-04 23:16:03.966] [engine_logger] [error] IBKR Error. ID: -1, Code: 2106, Message: HMDS data farm connection is OK:ushmds
+[2025-09-04 23:16:03.966] [engine_logger] [error] IBKR Error. ID: -1, Code: 2158, Message: Sec-def data farm connection is OK:secdefil
+[2025-09-04 23:16:16.348] [engine_logger] [info] Received SUBSCRIBE request for topic: TICK.TSLA
+[2025-09-04 23:16:16.348] [engine_logger] [info] Requesting market data for TSLA (TickerId 2000)
+[2025-09-04 23:16:16.348] [engine_logger] [warning] Received unknown command topic: SUBSCRIBE
+[2025-09-04 23:16:16.555] [engine_logger] [error] IBKR Error. ID: 2000, Code: 10167, Message: Requested market data is not subscribed. Displaying delayed market data.
+[2025-09-04 23:16:16.966] [engine_logger] [info] Tick Size for TSLA: +100E+0
+[2025-09-04 23:17:12.203] [engine_logger] [info] Received SUBSCRIBE request for topic: TICK.TSLA
+[2025-09-04 23:17:12.203] [engine_logger] [info] Requesting market data for TSLA (TickerId 2001)
+[2025-09-04 23:17:12.203] [engine_logger] [warning] Received unknown command topic: SUBSCRIBE
+[2025-09-04 23:17:12.265] [engine_logger] [info] Tick Size for TSLA: +100E+0
+[2025-09-04 23:17:12.266] [engine_logger] [info] Tick Size for TSLA: +100E+0
+[2025-09-04 23:17:12.303] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-09-04 23:17:12.303] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-09-04 23:17:12.303] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-09-04 23:17:12.303] [engine_logger] [info] New order added with ID: 3
+[2025-09-04 23:17:12.303] [engine_logger] [info] Placing order with id 3
+[2025-09-04 23:17:12.303] [engine_logger] [info] Order 3 sent to the gateway.
+[2025-09-04 23:17:12.303] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-09-04 23:17:12.303] [engine_logger] [info] New order added with ID: 4
+[2025-09-04 23:17:12.303] [engine_logger] [info] Placing order with id 4
+[2025-09-04 23:17:12.303] [engine_logger] [info] Order 4 sent to the gateway.
+[2025-09-04 23:17:12.845] [engine_logger] [error] IBKR Error. ID: 3, Code: 399, Message: Order Message: BUY 50 AAPL NASDAQ.NMS Warning: Your order will not be placed at the exchange until 2025-09-05 09:30:00 US/Eastern.
+[2025-09-04 23:17:12.886] [engine_logger] [info] Order Status. Id: 3, Status: PreSubmitted, Filled: +0E+0, Remaining: +50E+0, AvgFillPrice: 0
+[2025-09-04 23:17:12.886] [engine_logger] [info] Order Status. Id: 3, Status: PreSubmitted, Filled: +0E+0, Remaining: +50E+0, AvgFillPrice: 0
+[20

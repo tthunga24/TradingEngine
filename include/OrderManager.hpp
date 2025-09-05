@@ -5,15 +5,16 @@
 #include <unordered_map>
 #include <string>
 #include <atomic>
+#include <cstdint>
 
 namespace TradingEngine {
 
 class OrderManager {
 public:
-    OrderManager();
+OrderManager();
 
     uint64_t add_new_order(Order& order);
-
+    void set_next_order_id(uint64_t id);
     void update_order_status(const ExecutionReport& report);
 
     Order get_order(uint64_t order_id) const;

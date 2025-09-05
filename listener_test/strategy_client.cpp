@@ -55,7 +55,7 @@ int main() {
 
         // --- Strategy Logic ---
         // After 5 ticks, send a BUY order, but only once.
-        if (tick_counter % 3 == 0) {
+        if (tick_counter % 1 == 0) {
             std::cout << "\n[CLIENT] *** Tick threshold reached. Sending CREATE_ORDER command... ***\n" << std::endl;
 
             // 1. Define the command topic

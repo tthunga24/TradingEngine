@@ -55,56 +55,59 @@ void EngineCore::process_events() {
         Event event;
         m_event_queue.wait_and_pop(event);
         switch (event.type) {
-        case EventType::TICK:
-            handle_tick_event(std::get<Tick>(event.data));
-            break;
-        case EventType::SYSTEM_SHUTDOWN:
-            m_is_running = false;
-            break;
-        case EventType::SUBSCRIBE_REQUEST:
-            if (const auto* topic_ptr = std::get_if<std::string>(&event.data)) {
-                if (m_gateway_client) {
-                    m_gateway_client->subscribe_to_market_data(*topic_ptr);
-                } else {
-                    spdlog::warn("Received SUBSCRIBE_REQUEST in mock mode. No action taken.");
+            case EventType::TICK:
+                handle_tick_event(std::get<Tick>(event.data));
+                break;
+            
+            case EventType::SYSTEM_SHUTDOWN:
+                m_is_running = false;
+                break;
+            
+            case EventType::SUBSCRIBE_REQUEST: {
+                if (const auto* topic_ptr = std::get_if<std::string>(&event.data)) {
+                    if (m_gateway_client) {
+                        m_gateway_client->subscribe_to_market_data(*topic_ptr);
+                    } else {
+                        spdlog::warn("Received SUBSCRIBE_REQUEST but gateway client is not set.");
+                    }
                 }
+                break;
             }
-            break;
-	case EventType::ORDER_REQUEST: {
-	    Order& order = std::get<Order>(event.data);
-    	    spdlog::info("EngineCore is processing an order request for {} {} {}", 
-                 side_to_string(order.side), order.quantity, order.symbol);
 
-    // --- Future Step: Add Risk Management Check ---
-    // if (!m_risk_manager->approve_order(order)) {
-    //     spdlog::warn("Order rejected by Risk Manager.");
-    //     return;
-    // }
+            case EventType::ORDER_REQUEST: {
+                Order order = std::get<Order>(event.data);
+                spdlog::info("EngineCore processing order request for {} {} {}", 
+                     side_to_string(order.side), order.quantity, order.symbol);
 
-    // 1. Add the order to the OrderManager and get a unique ID
-    m_order_manager.add_new_order(order);
+                m_order_manager.add_new_order(order);
 
-    // 2. Convert our internal order to the IBKR format
-    ::Order ibkr_order = convert_to_ibkr_order(order);
-    ::Contract ibkr_contract = convert_to_ibkr_contract(order);
+                ::Order ibkr_order = convert_to_ibkr_order(order);
+                ::Contract ibkr_contract = convert_to_ibkr_contract(order);
 
-    // 3. Send the order to the broker via the GatewayClient
-    if (m_gateway_client) {
-        m_gateway_client->place_order(order.order_id, ibkr_contract, ibkr_order);
-        spdlog::info("Order {} sent to the gateway.", order.order_id);
-    } else {
-        spdlog::warn("Gateway client is not available. Order not sent.");
-    }
-    break;
-	}	
+                if (m_gateway_client) {
+                    m_gateway_client->place_order(order.order_id, ibkr_contract, ibkr_order);
+                    spdlog::info("Order {} sent to the gateway.", order.order_id);
+                } else {
+                    spdlog::warn("Gateway client is not available. Order not sent.");
+                }
+                break;
+            }
 
-	case EventType::EXECUTION_REPORT: {
-    	    const auto& report = std::get<ExecutionReport>(event.data);
-    
-            m_order_manager.update_order_status(report);
-    
-    	    break;
-	}	
+            case EventType::EXECUTION_REPORT: {
+                const auto& report = std::get<ExecutionReport>(event.data);
+                m_order_manager.update_order_status(report);
+                break;
+            }
+            
+            case EventType::NEXT_VALID_ID: {
+                if (const auto* order_id_ptr = std::get_if<long long>(&event.data)) {
+                    m_order_manager.set_next_order_id(*order_id_ptr);
+                }
+                break;
+            }
+            default:
+                spdlog::warn("Received unhandled event type.");
+                break;
         }
     }
 }
@@ -113,4 +116,4 @@ void EngineCore::handle_tick_event(const Tick& tick) {
     m_scripting_interface.publish_tick(tick);
 }
 
-}
+} // namespace TradingEngine

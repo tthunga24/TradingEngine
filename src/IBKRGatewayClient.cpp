@@ -65,6 +65,14 @@ void IBKRGatewayClient::subscribe_to_market_data(const std::string& topic) {
 
 void IBKRGatewayClient::nextValidId(OrderId orderId) {
     spdlog::info("Connection to IBKR established. Next Valid Order ID: {}", orderId);
+
+    Event id_event;
+    id_event.type = EventType::NEXT_VALID_ID; // You will need to add this to your EventType enum
+    id_event.data = orderId;
+    if (m_engine_core) {
+        m_engine_core->post_event(id_event);
+    }
+
     m_next_valid_id = orderId;
     m_is_connection_acknowledged = true;
     m_connection_promise.set_value();

@@ -5,12 +5,7 @@ namespace TradingEngine {
 
 OrderManager::OrderManager() : m_next_order_id(1) {}
 
-uint64_t OrderManager::add_new_order(Order& order) {
-    uint64_t id = m_next_order_id++;
-    order.order_id = id;
-    m_orders[id] = order;
-    return id;
-}
+
 
 void OrderManager::update_order_status(const ExecutionReport& report) {
     auto it = m_orders.find(report.order_id);
@@ -36,12 +31,26 @@ void OrderManager::update_order_status(const ExecutionReport& report) {
                  order.order_id, status_to_string(order.status), order.symbol, position);
 }
 
+
+uint64_t OrderManager::add_new_order(Order& order) {
+    uint64_t id = m_next_order_id++; 
+    order.order_id = id;
+    m_orders[id] = order;
+    spdlog::info("New order added with ID: {}", id);
+    return id;
+}
+
 Order OrderManager::get_order(uint64_t order_id) const {
     auto it = m_orders.find(order_id);
     if (it != m_orders.end()) {
         return it->second;
     }
     return Order{};
+}
+
+void OrderManager::set_next_order_id(uint64_t id) {
+    spdlog::info("OrderManager's next valid ID set to: {}", id);
+    m_next_order_id = id;
 }
 
 double OrderManager::get_position(const std::string& symbol) const {

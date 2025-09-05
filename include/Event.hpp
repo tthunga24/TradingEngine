@@ -12,6 +12,7 @@ enum class EventType {
     ORDER_REQUEST,
     SEND_NEW_ORDER,
     EXECUTION_REPORT,
+    NEXT_VALID_ID,
     SYSTEM_SHUTDOWN,
     SUBSCRIBE_REQUEST
 };
@@ -22,6 +23,7 @@ struct Event {
         std::monostate,
         Tick,
         Order,
+	long long,
         ExecutionReport,
         std::string
         > data;
