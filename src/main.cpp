@@ -1,4 +1,5 @@
 #include "LogHandler.hpp"
+#include "TimeUtils.hpp"
 #include "ConfigHandler.hpp"
 #include "EngineCore.hpp"
 #include "OrderManager.hpp"
@@ -45,6 +46,18 @@ int main(int argc, char* argv[]) {
     }
     g_engine_core_ptr->startup();
     data_handler->connect();
+spdlog::info("Waiting for market open...");
+while (!is_market_open_now()) {
+   // if (!g_engine_core_ptr->m_is_running) { 
+     //   spdlog::warn("Shutdown requested");
+       // data_handler->disconnect();
+      //  return 0;
+   // }
+    spdlog::info("Market is closed. Waiting for 5 seconds");
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+}
+
+spdlog::info("Market is open! Starting event loop.");
     g_engine_core_ptr->run();
     data_handler->disconnect();
     spdlog::info("--- Trading Engine Shutdown Complete ---");

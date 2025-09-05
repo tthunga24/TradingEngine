@@ -28,6 +28,8 @@ void EngineCore::set_gateway_client(IBKRGatewayClient* gateway_client) {
     m_gateway_client = gateway_client;
 }
 
+bool EngineCore::is_running() const { return m_is_running; }
+
 void EngineCore::startup() {
     m_scripting_interface.start();
 }

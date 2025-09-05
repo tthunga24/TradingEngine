@@ -26,9 +26,9 @@ public:
     void set_gateway_client(IBKRGatewayClient* gateway_client);
     void startup();
     void run();
+    bool is_running() const;
     void stop();
-    void post_event(Event event);
-
+    void post_event(Event event); 
 private:
     I_MarketDataHandler* m_market_data_handler;
     IBKRExecutionHandler* m_execution_handler;
