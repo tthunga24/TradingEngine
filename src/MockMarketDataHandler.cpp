@@ -27,10 +27,14 @@ void MockMarketDataHandler::connect() {
         spdlog::warn("MockMarketDataHandler is already connected.");
         return;
     }
+    spdlog::info("MOCKMarketDataHandler initialized, wating for strategy to signal start");
     m_is_running = true;
-    m_data_thread = std::thread(&MockMarketDataHandler::process_data_feed, this);
-    spdlog::info("MockMarketDataHandler connected and started processing {}", m_csv_path);
 }
+
+void MockMarketDataHandler::start() {
+	
+    m_data_thread = std::thread(&MockMarketDataHandler::process_data_feed, this);
+    spdlog::info("MockMarketDataHandler connected and started processing {}", m_csv_path);}
 
 void MockMarketDataHandler::disconnect() {
     m_is_running = false;
@@ -62,11 +66,13 @@ void MockMarketDataHandler::process_data_feed() {
                 tick_event.type = EventType::TICK;
                 tick_event.data = tick;
                 m_engine_core->post_event(tick_event);
+		spdlog::info("Tick Posted");
             } catch (const std::invalid_argument& e) {
                 spdlog::error("Could not parse line in CSV: {}", line);
             }
         }
-        std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	//If your strategy needs time to process ticks, modify the below
+       // std::this_thread::sleep_for(std::chrono::milliseconds(500));
     }
 }
 

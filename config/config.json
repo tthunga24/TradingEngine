@@ -1,6 +1,6 @@
 {
   "engine_settings": {
-    "mode": "paper",
+    "mode": "mock",
     "log_file_path": "logs/engine.log"
   },
 

@@ -32,7 +32,9 @@ int main(int argc, char* argv[]) {
     auto execution_handler = std::make_unique<IBKRExecutionHandler>(g_engine_core_ptr.get());
     std::unique_ptr<I_MarketDataHandler> data_handler;
     std::string mode = ConfigHandler::get_engine_mode();
+    g_engine_core_ptr->set_mode(mode);
     if (mode == "mock") {
+	std::cout << g_engine_core_ptr.get() << std::endl;
         data_handler = std::make_unique<MockMarketDataHandler>(g_engine_core_ptr.get(), "data/ticks.csv");
         spdlog::info("Operating in MOCK mode.");
     } else {
@@ -46,18 +48,24 @@ int main(int argc, char* argv[]) {
     }
     g_engine_core_ptr->startup();
     data_handler->connect();
-spdlog::info("Waiting for market open...");
-while (!is_market_open_now()) {
-   // if (!g_engine_core_ptr->m_is_running) { 
-     //   spdlog::warn("Shutdown requested");
-       // data_handler->disconnect();
-      //  return 0;
-   // }
-    spdlog::info("Market is closed. Waiting for 5 seconds");
-    std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    if (mode != "mock") {
+
+	spdlog::info("Waiting for market open...");
+	while (!is_market_open_now()) {
+   	// if (!g_engine_core_ptr->m_is_running) { 
+     	//   spdlog::warn("Shutdown requested");
+       	// data_handler->disconnect();
+      	//  return 0;
+   	// }
+    	spdlog::info("Market is closed. Waiting for 5 seconds");
+    	std::this_thread::sleep_for(std::chrono::seconds(5));
+
+    }
+    
+    spdlog::info("Market is open! Starting event loop.");
 }
 
-spdlog::info("Market is open! Starting event loop.");
     g_engine_core_ptr->run();
     data_handler->disconnect();
     spdlog::info("--- Trading Engine Shutdown Complete ---");

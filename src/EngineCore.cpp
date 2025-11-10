@@ -28,6 +28,16 @@ void EngineCore::set_gateway_client(IBKRGatewayClient* gateway_client) {
     m_gateway_client = gateway_client;
 }
 
+void EngineCore::set_mode(std::string mode) {
+    m_mode = mode;
+}
+
+std::string EngineCore::get_mode() { return m_mode; }
+
+void EngineCore::start_data_feed() {
+    m_market_data_handler->start();
+}
+
 bool EngineCore::is_running() const { return m_is_running; }
 
 void EngineCore::startup() {

@@ -12,6 +12,10 @@ public:
 
     virtual void connect() = 0;
 
+    virtual void start() {
+	return;
+    }
+
     virtual void disconnect() = 0;
 
 protected:

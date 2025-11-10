@@ -29,6 +29,10 @@ public:
     bool is_running() const;
     void stop();
     void post_event(Event event); 
+    void set_mode(std::string mode);
+    std::string get_mode();
+    void start_data_feed();
+    
 private:
     I_MarketDataHandler* m_market_data_handler;
     IBKRExecutionHandler* m_execution_handler;
@@ -44,6 +48,7 @@ private:
 
     OrderManager& m_order_manager;
     ScriptingInterface m_scripting_interface;
+    std::string m_mode;
 };
 
 }

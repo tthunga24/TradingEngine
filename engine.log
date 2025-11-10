@@ -1,0 +1,13 @@
+[2025-11-09 22:01:32.591] [engine_logger] [info] LogHandler initialized successfully.
+[2025-11-09 22:01:32.591] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
+[2025-11-09 22:01:32.591] [engine_logger] [info] --- Trading Engine Starting ---
+[2025-11-09 22:01:32.591] [engine_logger] [info] Operating in MOCK mode.
+[2025-11-09 22:01:32.591] [engine_logger] [info] ScriptingInterface starting...
+[2025-11-09 22:01:32.591] [engine_logger] [info] Data publisher bound to tcp://*:5555
+[2025-11-09 22:01:32.591] [engine_logger] [info] Command subscriber bound to tcp://*:5556
+[2025-11-09 22:01:32.591] [engine_logger] [info] MOCKMarketDataHandler initialized, wating for strategy to signal start
+[2025-11-09 22:01:32.592] [engine_logger] [info] EngineCore event loop is starting...
+[2025-11-09 22:01:38.505] [engine_logger] [info] ScriptingInterface stopped.
+[2025-11-09 22:01:38.505] [engine_logger] [info] EngineCore has stopped.
+[2025-11-09 22:01:38.505] [engine_logger] [info] MockMarketDataHandler disconnected.
+[2025-11-09 22:01:38.505] [engine_logger] [info] --- Trading Engine Shutdown Complete ---

@@ -31,7 +31,7 @@ int main() {
 
     std::cout << "\n[CLIENT] --- Strategy is running ---" << std::endl;
     
-    std::string command_topic = "SUBSCRIBE";
+    std::string command_topic = "MOCK";
     nlohmann::json payload_json;
     payload_json["topic"] = "TICK.TSLA";
     std::string payload_str = payload_json.dump();

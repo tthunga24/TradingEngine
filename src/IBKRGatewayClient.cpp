@@ -11,7 +11,6 @@ namespace TradingEngine {
 
 IBKRGatewayClient::IBKRGatewayClient(EngineCore* engine_core, const std::string& host, int port, int client_id)
     : I_MarketDataHandler(engine_core),
-      m_engine_core(engine_core),
       m_host(host), m_port(port), m_client_id(client_id),
       m_client(std::make_unique<EClientSocket>(this, &m_signal)),
       m_signal(1000),

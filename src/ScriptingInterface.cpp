@@ -54,6 +54,26 @@ void ScriptingInterface::publish_tick(const Tick& tick) {
 }
 
 void ScriptingInterface::listen_for_commands() {
+    if (m_engine_core.get_mode() == "mock") {
+	
+    	while (m_is_running) {
+            zmq::message_t topic_msg;
+            auto result = m_command_subscriber.recv(topic_msg, zmq::recv_flags::dontwait);
+            if (!result.has_value()) {
+            	std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            	continue;
+            }
+	
+
+       	     std::string topic = topic_msg.to_string();
+	    if (topic == "MOCK") {
+	        spdlog::info("Start signal recived, beginning data feed");
+	        m_engine_core.start_data_feed();
+	    }   
+
+	break;
+        }
+    }
     while (m_is_running) {
         zmq::message_t topic_msg;
         auto result = m_command_subscriber.recv(topic_msg, zmq::recv_flags::dontwait);

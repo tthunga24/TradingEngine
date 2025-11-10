@@ -129,7 +129,6 @@ private:
 private:
     std::promise<void> m_connection_promise;
     std::atomic<bool> m_is_connection_acknowledged;
-    EngineCore* m_engine_core;
     std::unique_ptr<EClientSocket> m_client;
     EReaderOSSignal m_signal;
     std::unique_ptr<EReader> m_reader;
