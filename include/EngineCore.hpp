@@ -20,7 +20,7 @@ namespace TradingEngine {
 class EngineCore {
 public:
     EngineCore(
-        OrderManager& order_manager);
+        OrderManager& order_manager, std::string pub, std::string sub);
     void set_market_data_handler(I_MarketDataHandler* md_handler);
     void set_execution_handler(IBKRExecutionHandler* exec_handler);
     void set_gateway_client(IBKRGatewayClient* gateway_client);

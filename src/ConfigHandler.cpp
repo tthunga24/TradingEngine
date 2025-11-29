@@ -51,3 +51,11 @@ std::vector<std::string> ConfigHandler::get_market_data_subscriptions() {
     }
     return {};
 }
+
+std::string ConfigHandler::get_scripting_publish_endpoint() {
+    return get_instance().get_required_value<std::string>("scripting.publish_endpoint");
+}
+
+std::string ConfigHandler::get_scripting_subscribe_endpoint() {
+    return get_instance().get_required_value<std::string>("scripting.subscribe_endpoint");
+}

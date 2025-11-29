@@ -10,6 +10,11 @@
     "daily_pnl_loss_limit_usd": -1000.0
   },
 
+  "scripting": {
+    "publish_endpoint": "tcp://*:5555",
+    "subscribe_endpoint": "tcp://*:5556"
+  },
+
   "api_keys": {
     "paper_trading": {
       "api_key": "YOUR_PAPER_API_KEY",

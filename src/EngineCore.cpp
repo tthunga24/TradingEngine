@@ -8,13 +8,13 @@
 
 namespace TradingEngine {
 
-EngineCore::EngineCore(OrderManager& order_manager)
+EngineCore::EngineCore(OrderManager& order_manager, std::string pub, std::string sub)
     : m_is_running(false),
       m_order_manager(order_manager),
       m_market_data_handler(nullptr),
       m_execution_handler(nullptr),
       m_gateway_client(nullptr),
-      m_scripting_interface(*this, "tcp://*:5555", "tcp://*:5556") {}
+      m_scripting_interface(*this, pub, sub) {}
 
 void EngineCore::set_market_data_handler(I_MarketDataHandler* md_handler) {
     m_market_data_handler = md_handler;

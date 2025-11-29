@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
     std::signal(SIGINT, signal_handler);
     spdlog::info("--- Trading Engine Starting ---");
     auto order_manager = std::make_unique<OrderManager>();
-    g_engine_core_ptr = std::make_unique<EngineCore>(*order_manager);
+    g_engine_core_ptr = std::make_unique<EngineCore>(*order_manager, ConfigHandler::get_scripting_publish_endpoint(), ConfigHandler::get_scripting_subscribe_endpoint());
     auto execution_handler = std::make_unique<IBKRExecutionHandler>(g_engine_core_ptr.get());
     std::unique_ptr<I_MarketDataHandler> data_handler;
     std::string mode = ConfigHandler::get_engine_mode();

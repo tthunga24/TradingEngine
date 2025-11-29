@@ -1,13 +1,96 @@
-[2025-11-09 22:01:32.591] [engine_logger] [info] LogHandler initialized successfully.
-[2025-11-09 22:01:32.591] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
-[2025-11-09 22:01:32.591] [engine_logger] [info] --- Trading Engine Starting ---
-[2025-11-09 22:01:32.591] [engine_logger] [info] Operating in MOCK mode.
-[2025-11-09 22:01:32.591] [engine_logger] [info] ScriptingInterface starting...
-[2025-11-09 22:01:32.591] [engine_logger] [info] Data publisher bound to tcp://*:5555
-[2025-11-09 22:01:32.591] [engine_logger] [info] Command subscriber bound to tcp://*:5556
-[2025-11-09 22:01:32.591] [engine_logger] [info] MOCKMarketDataHandler initialized, wating for strategy to signal start
-[2025-11-09 22:01:32.592] [engine_logger] [info] EngineCore event loop is starting...
-[2025-11-09 22:01:38.505] [engine_logger] [info] ScriptingInterface stopped.
-[2025-11-09 22:01:38.505] [engine_logger] [info] EngineCore has stopped.
-[2025-11-09 22:01:38.505] [engine_logger] [info] MockMarketDataHandler disconnected.
-[2025-11-09 22:01:38.505] [engine_logger] [info] --- Trading Engine Shutdown Complete ---
+[2025-11-29 04:53:20.339] [engine_logger] [info] LogHandler initialized successfully.
+[2025-11-29 04:53:20.339] [engine_logger] [info] ConfigHandler initialized successfully from config/config.json
+[2025-11-29 04:53:20.339] [engine_logger] [info] --- Trading Engine Starting ---
+[2025-11-29 04:53:20.339] [engine_logger] [info] Operating in MOCK mode.
+[2025-11-29 04:53:20.339] [engine_logger] [info] ScriptingInterface starting...
+[2025-11-29 04:53:20.339] [engine_logger] [info] Data publisher bound to tcp://*:5555
+[2025-11-29 04:53:20.339] [engine_logger] [info] Command subscriber bound to tcp://*:5556
+[2025-11-29 04:53:20.339] [engine_logger] [info] MOCKMarketDataHandler initialized, wating for strategy to signal start
+[2025-11-29 04:53:20.339] [engine_logger] [info] EngineCore event loop is starting...
+[2025-11-29 04:53:25.347] [engine_logger] [info] Start signal recived, beginning data feed
+[2025-11-29 04:53:25.348] [engine_logger] [info] MockMarketDataHandler connected and started processing data/ticks.csv
+[2025-11-29 04:53:25.348] [engine_logger] [warning] Received unknown command topic: {"topic":"TICK.TSLA"}
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.355] [engine_logger] [info] Tick Posted
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 1
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 2
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 3
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 4
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 5
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.448] [engine_logger] [info] New order added with ID: 6
+[2025-11-29 04:53:25.448] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 7
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 8
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 9
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 10
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 11
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 12
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 13
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.448] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] Posted ORDER_REQUEST event to EngineCore for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 14
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 15
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:25.449] [engine_logger] [info] EngineCore processing order request for BUY 50 AAPL
+[2025-11-29 04:53:25.449] [engine_logger] [info] New order added with ID: 16
+[2025-11-29 04:53:25.449] [engine_logger] [warning] Gateway client is not available. Order not sent.
+[2025-11-29 04:53:31.361] [engine_logger] [info] ScriptingInterface stopped.
+[2025-11-29 04:53:31.361] [engine_logger] [info] EngineCore has stopped.
+[2025-11-29 04:53:31.361] [engine_logger] [info] MockMarketDataHandler disconnected.
+[2025-11-29 04:53:31.361] [engine_logger] [info] --- Trading Engine Shutdown Complete ---
