@@ -66,7 +66,7 @@ void IBKRGatewayClient::nextValidId(OrderId orderId) {
     spdlog::info("Connection to IBKR established. Next Valid Order ID: {}", orderId);
 
     Event id_event;
-    id_event.type = EventType::NEXT_VALID_ID; // You will need to add this to your EventType enum
+    id_event.type = EventType::NEXT_VALID_ID; 
     id_event.data = orderId;
     if (m_engine_core) {
         m_engine_core->post_event(id_event);
@@ -162,7 +162,7 @@ void IBKRGatewayClient::orderStatus(OrderId orderId, const std::string& status, 
 
     ExecutionReport report;
     report.order_id = orderId;
-    report.fill_quantity = 0; // orderStatus doesn't always have fill details, execDetails does
+    report.fill_quantity = 0; 
     report.fill_price = avgFillPrice;
 
     Event report_event;
@@ -177,7 +177,47 @@ void IBKRGatewayClient::execDetails(int reqId, const Contract& contract, const E
     spdlog::info("Execution Details. OrderId: {}, Symbol: {}, Side: {}, Quantity: {}, Price: {}", 
                  execution.orderId, contract.symbol, execution.side, 
                  DecimalFunctions::decimalToString(execution.shares), execution.price);
+}
+
+
+void IBKRGatewayClient::request_historical_data(const std::string& symbol, const std::string& end_date_time, const std::string& duration, const std::string& bar_size) {
+    Contract contract;
+    contract.symbol = symbol;
+    contract.secType = "STK";
+    contract.exchange = "SMART";
+    contract.currency = "USD";
     
+    long reqId = m_next_valid_order_id++; 
+    m_reqId_to_symbol_map[reqId] = symbol;
+
+    m_client->reqHistoricalData(reqId, contract, end_date_time, duration, bar_size, "TRADES", 1, 1, false, TagValueListSPtr());
+}
+
+void IBKRGatewayClient::historicalData(TickerId reqId, const ::Bar& bar) {
+     spdlog::info("Historical Data. ReqId: {}, Date: {}, Open: {}, Close: {}", reqId, bar.time, bar.open, bar.close);
+     
+     // Convert to internal format
+     TradingEngine::Bar engine_bar;
+     engine_bar.time = bar.time;
+     engine_bar.open = bar.open;
+     engine_bar.high = bar.high;
+     engine_bar.low = bar.low;
+     engine_bar.close = bar.close;
+     engine_bar.volume = bar.volume;
+     
+     if(m_reqId_to_symbol_map.count(reqId)) {
+        engine_bar.symbol = m_reqId_to_symbol_map[reqId];
+     }
+
+    Event event;
+    event.type = EventType::HISTORICAL_DATA;
+    event.data = engine_bar;
+    if(m_engine_core) {
+        m_engine_core->post_event(event);
+    }
+}
+
+void IBKRGatewayClient::historicalDataUpdate(TickerId reqId, const ::Bar& bar) {
 }
 
 void IBKRGatewayClient::openOrder(OrderId, const ::Contract&, const ::Order&, const ::OrderState&) {}
@@ -203,7 +243,6 @@ void IBKRGatewayClient::updateMktDepthL2(TickerId, int, const std::string&, int,
 void IBKRGatewayClient::updateNewsBulletin(int, int, const std::string&, const std::string&) {}
 void IBKRGatewayClient::managedAccounts(const std::string&) {}
 void IBKRGatewayClient::receiveFA(faDataType, const std::string&) {}
-void IBKRGatewayClient::historicalData(TickerId, const Bar&) {}
 void IBKRGatewayClient::scannerParameters(const std::string&) {}
 void IBKRGatewayClient::scannerData(int, int, const ContractDetails&, const std::string&, const std::string&, const std::string&, const std::string&) {}
 void IBKRGatewayClient::scannerDataEnd(int) {}
@@ -245,7 +284,7 @@ void IBKRGatewayClient::historicalNews(int, const std::string&, const std::strin
 void IBKRGatewayClient::historicalNewsEnd(int, bool) {}
 void IBKRGatewayClient::headTimestamp(int, const std::string&) {}
 void IBKRGatewayClient::histogramData(int, const HistogramDataVector&) {}
-void IBKRGatewayClient::historicalDataUpdate(TickerId, const Bar&) {}
+// historicalDataUpdate implemented above
 void IBKRGatewayClient::rerouteMktDataReq(int, int, const std::string&) {}
 void IBKRGatewayClient::rerouteMktDepthReq(int, int, const std::string&) {}
 void IBKRGatewayClient::marketRule(int, const std::vector<PriceIncrement>&) {}

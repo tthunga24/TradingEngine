@@ -7,6 +7,7 @@
 #include "EReader.h"
 #include <memory>
 #include <thread>
+#include <map>
 
 namespace TradingEngine {
 
@@ -50,8 +51,12 @@ private:
     void updateNewsBulletin(int, int, const std::string&, const std::string&) override;
     void managedAccounts(const std::string&) override;
     void receiveFA(faDataType, const std::string&) override;
-    void historicalData(TickerId, const Bar&) override;
+    
+    // FIX: Explicitly use ::Bar here
+    void historicalData(TickerId, const ::Bar&) override;
     void historicalDataEnd(int, const std::string&, const std::string&) override;
+    void historicalDataUpdate(TickerId, const ::Bar&) override;
+    
     void scannerParameters(const std::string&) override;
     void scannerData(int, int, const ContractDetails&, const std::string&, const std::string&, const std::string&, const std::string&) override;
     void scannerDataEnd(int) override;
@@ -90,7 +95,6 @@ private:
     void historicalNewsEnd(int, bool) override;
     void newsArticle(int, int, const std::string&) override;
     void newsProviders(const std::vector<NewsProvider>&) override;
-    void historicalDataUpdate(TickerId, const Bar&) override;
     void rerouteMktDataReq(int, int, const std::string&) override;
     void rerouteMktDepthReq(int, int, const std::string&) override;
     void marketRule(int, const std::vector<PriceIncrement>&) override;
@@ -121,6 +125,8 @@ private:
     int m_port;
     int m_client_id;
     OrderId m_next_valid_id;
+    
+    std::map<long, std::string> m_reqId_to_symbol_map;
 };
 
 }

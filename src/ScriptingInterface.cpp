@@ -4,6 +4,7 @@
 #include "Event.hpp"
 #include "Order.hpp"
 #include <nlohmann/json.hpp>
+#include <stdexcept>
 
 namespace TradingEngine {
 
@@ -21,6 +22,7 @@ ScriptingInterface::~ScriptingInterface() {
         stop();
     }
 }
+
 
 void ScriptingInterface::start() {
     m_is_running = true;
@@ -53,36 +55,73 @@ void ScriptingInterface::publish_tick(const Tick& tick) {
     m_data_publisher.send(zmq::buffer(payload_str), zmq::send_flags::none);
 }
 
+// Implement the new publishing method
+void ScriptingInterface::publish_historical_data(const Bar& bar) {
+    std::string topic = "HISTORY." + bar.symbol;
+    nlohmann::json payload_json;
+    payload_json["symbol"] = bar.symbol;
+    payload_json["time"] = bar.time;
+    payload_json["open"] = bar.open;
+    payload_json["high"] = bar.high;
+    payload_json["low"] = bar.low;
+    payload_json["close"] = bar.close;
+    payload_json["volume"] = bar.volume;
+
+    std::string payload_str = payload_json.dump();
+    m_data_publisher.send(zmq::buffer(topic), zmq::send_flags::sndmore);
+    m_data_publisher.send(zmq::buffer(payload_str), zmq::send_flags::none);
+}
+
 void ScriptingInterface::listen_for_commands() {
-    if (m_engine_core.get_mode() == "mock") {
-	
-    	while (m_is_running) {
-            zmq::message_t topic_msg;
-            auto result = m_command_subscriber.recv(topic_msg, zmq::recv_flags::dontwait);
-            if (!result.has_value()) {
-            	std::this_thread::sleep_for(std::chrono::milliseconds(100));
-            	continue;
-            }
-	
+    bool is_mock_mode = (m_engine_core.get_mode() == "mock");
 
-       	     std::string topic = topic_msg.to_string();
-	    if (topic == "MOCK") {
-	        spdlog::info("Start signal recived, beginning data feed");
-	        m_engine_core.start_data_feed();
-	    }   
-
-	break;
-        }
-    }
     while (m_is_running) {
         zmq::message_t topic_msg;
         auto result = m_command_subscriber.recv(topic_msg, zmq::recv_flags::dontwait);
+        
         if (!result.has_value()) {
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
             continue;
         }
+
         std::string topic = topic_msg.to_string();
-        if (topic == "SUBSCRIBE") {
+
+        if (is_mock_mode && topic == "MOCK") {
+            spdlog::info("Start signal received, beginning data feed");
+            m_engine_core.start_data_feed();
+            continue; 
+        }
+
+        if (topic == "REQUEST_HISTORY") {
+             zmq::message_t payload_msg;
+             auto res = m_command_subscriber.recv(payload_msg, zmq::recv_flags::none);
+             if(res.has_value()){
+                 try {
+                     auto json = nlohmann::json::parse(payload_msg.to_string());
+                     
+                     // We need to define a struct for this or use a temporary carrier
+                     // Assuming you add 'HistoricalDataRequest' to Event.hpp or use a specific event
+                     // For now, I will use a simple struct-like logic
+                     
+                     HistoricalDataRequest req;
+                     req.symbol = json["symbol"];
+                     req.end_date = json.value("end_date", "");
+                     req.duration = json.value("duration", "1 W");
+                     req.bar_size = json.value("bar_size", "1 day");
+
+                     Event event;
+                     event.type = EventType::HISTORICAL_DATA_REQUEST;
+                     event.data = req; // Ensure Event variant supports this!
+                     m_engine_core.post_event(event);
+                     
+                     spdlog::info("Received history request for {}", req.symbol);
+
+                 } catch (const std::exception& e) {
+                     spdlog::error("Failed to parse REQUEST_HISTORY: {}", e.what());
+                 }
+             }
+        }
+        else if (topic == "SUBSCRIBE") {
             zmq::message_t payload_msg;
             m_command_subscriber.recv(payload_msg, zmq::recv_flags::none);
             try {
@@ -97,7 +136,7 @@ void ScriptingInterface::listen_for_commands() {
                 spdlog::error("Could not parse SUBSCRIBE payload: {}", e.what());
             }
         }
-        if (topic == "CREATE_ORDER") {
+        else if (topic == "CREATE_ORDER") {
             zmq::message_t payload_msg;
             auto payload_result = m_command_subscriber.recv(payload_msg, zmq::recv_flags::none);
             if (!payload_result.has_value()) {
@@ -108,39 +147,31 @@ void ScriptingInterface::listen_for_commands() {
                 std::string payload_str = payload_msg.to_string();
                 spdlog::debug("Received CREATE_ORDER payload: {}", payload_str);
                 auto json_data = nlohmann::json::parse(payload_str);
-                auto payload = json_data["payload"];
+                auto payload = json_data.contains("payload") ? json_data["payload"] : json_data;
+
                 Order order;
                 order.symbol = payload["symbol"].get<std::string>();
                 order.quantity = payload["quantity"].get<double>();
+                
                 std::string side_str = payload["side"].get<std::string>();
-                if (side_str == "BUY")
-                    order.side = Side::BUY;
-                else if (side_str == "SELL")
-                    order.side = Side::SELL;
-                else {
-                    spdlog::error("Invalid order side in payload: {}", side_str);
-                    continue;
-                }
+                if (side_str == "BUY") order.side = Side::BUY;
+                else if (side_str == "SELL") order.side = Side::SELL;
+                
                 std::string type_str = payload["order_type"].get<std::string>();
-                if (type_str == "MARKET")
-                    order.order_type = OrderType::MARKET;
+                if (type_str == "MARKET") order.order_type = OrderType::MARKET;
                 else if (type_str == "LIMIT") {
                     order.order_type = OrderType::LIMIT;
                     order.price = payload.value("limit_price", 0.0);
-                } else {
-                    spdlog::error("Invalid order type in payload: {}", type_str);
-                    continue;
                 }
+
                 Event order_event;
                 order_event.type = EventType::ORDER_REQUEST;
                 order_event.data = order;
                 m_engine_core.post_event(order_event);
-                spdlog::info("Posted ORDER_REQUEST event to EngineCore for {} {} {}", side_to_string(order.side), order.quantity, order.symbol);
+                spdlog::info("Posted ORDER_REQUEST for {}", order.symbol);
             } catch (const nlohmann::json::exception& e) {
-                spdlog::error("Failed to parse CREATE_ORDER JSON payload. Error: {}", e.what());
+                spdlog::error("Failed to parse CREATE_ORDER: {}", e.what());
             }
-        } else {
-            spdlog::warn("Received unknown command topic: {}", topic);
         }
     }
 }

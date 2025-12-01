@@ -5,6 +5,7 @@
 #include "IBKRGatewayClient.hpp"
 #include "I_MarketDataHandler.hpp"
 #include "IBKRConverters.hpp"
+#include <variant>
 
 namespace TradingEngine {
 
@@ -117,6 +118,25 @@ void EngineCore::process_events() {
                 }
                 break;
             }
+
+            case EventType::HISTORICAL_DATA_REQUEST: {
+                if (m_gateway_client) {
+                    const auto& req = std::get<HistoricalDataRequest>(event.data);
+                    spdlog::info("EngineCore forwarding history request for {}", req.symbol);
+                    m_gateway_client->request_historical_data(req.symbol, req.end_date, req.duration, req.bar_size);
+                } else {
+                    spdlog::warn("Gateway client not available for history request");
+                }
+                break;
+            }
+
+            case EventType::HISTORICAL_DATA: {
+                const auto& bar = std::get<Bar>(event.data);
+                spdlog::info("History: {} [{}] C:{}", bar.symbol, bar.time, bar.close);
+                m_scripting_interface.publish_historical_data(bar);
+                break;
+            }
+
             default:
                 spdlog::warn("Received unhandled event type.");
                 break;

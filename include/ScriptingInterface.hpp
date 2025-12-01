@@ -4,6 +4,7 @@
 #include <thread>
 #include <atomic>
 #include "Tick.hpp"
+#include "Bar.hpp"
 
 namespace TradingEngine {
 class EngineCore;
@@ -19,6 +20,8 @@ public:
     void start();
 
     void stop();
+
+    void publish_historical_data(const Bar& bar);
 
     void publish_tick(const Tick& tick);
 

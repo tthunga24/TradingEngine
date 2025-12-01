@@ -1,6 +1,6 @@
 {
   "engine_settings": {
-    "mode": "mock",
+    "mode": "live",
     "log_file_path": "logs/engine.log"
   },
 

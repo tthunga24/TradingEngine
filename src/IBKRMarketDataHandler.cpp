@@ -56,6 +56,31 @@ void IBKRMarketDataHandler::error(int id, int errorCode, const std::string& erro
     spdlog::error("IBKR Error. ID: {}, Code: {}, Message: {}", id, errorCode, errorString);
 }
 
+void IBKRMarketDataHandler::historicalData(TickerId reqId, const ::Bar& bar) {
+    TradingEngine::Bar engine_bar;
+    engine_bar.time = bar.time;
+    engine_bar.open = bar.open;
+    engine_bar.high = bar.high;
+    engine_bar.low = bar.low;
+    engine_bar.close = bar.close;
+    engine_bar.volume = bar.volume;
+    if(m_reqId_to_symbol_map.count(reqId)){
+         engine_bar.symbol = m_reqId_to_symbol_map[reqId]; 
+    }
+
+    TradingEngine::Event event;
+    event.type = TradingEngine::EventType::HISTORICAL_DATA;
+    event.data = engine_bar;
+    m_engine_core->post_event(event);
+}
+
+void IBKRMarketDataHandler::historicalDataUpdate(TickerId reqId, const ::Bar& bar) {
+}
+
+void IBKRMarketDataHandler::historicalDataEnd(int reqId, const std::string& startDateStr, const std::string& endDateStr) { 
+    spdlog::info("Finished receiving historical data for request {}", reqId);
+}
+
 void IBKRMarketDataHandler::openOrder(OrderId, const Contract&, const ::Order&, const OrderState&) {}
 void IBKRMarketDataHandler::pnlSingle(int, Decimal, double, double, double, double) {}
 void IBKRMarketDataHandler::completedOrder(const Contract&, const ::Order&, const OrderState&) {}
@@ -81,8 +106,6 @@ void IBKRMarketDataHandler::updateMktDepthL2(TickerId, int, const std::string&, 
 void IBKRMarketDataHandler::updateNewsBulletin(int, int, const std::string&, const std::string&) {}
 void IBKRMarketDataHandler::managedAccounts(const std::string&) {}
 void IBKRMarketDataHandler::receiveFA(faDataType, const std::string&) {}
-void IBKRMarketDataHandler::historicalData(TickerId, const Bar&) {}
-void IBKRMarketDataHandler::historicalDataEnd(int, const std::string&, const std::string&) {}
 void IBKRMarketDataHandler::scannerParameters(const std::string&) {}
 void IBKRMarketDataHandler::scannerData(int, int, const ContractDetails&, const std::string&, const std::string&, const std::string&, const std::string&) {}
 void IBKRMarketDataHandler::scannerDataEnd(int) {}
@@ -121,7 +144,6 @@ void IBKRMarketDataHandler::historicalNews(int, const std::string&, const std::s
 void IBKRMarketDataHandler::historicalNewsEnd(int, bool) {}
 void IBKRMarketDataHandler::newsArticle(int, int, const std::string&) {}
 void IBKRMarketDataHandler::newsProviders(const std::vector<NewsProvider>&) {}
-void IBKRMarketDataHandler::historicalDataUpdate(TickerId, const Bar&) {}
 void IBKRMarketDataHandler::rerouteMktDataReq(int, int, const std::string&) {}
 void IBKRMarketDataHandler::rerouteMktDepthReq(int, int, const std::string&) {}
 void IBKRMarketDataHandler::marketRule(int, const std::vector<PriceIncrement>&) {}

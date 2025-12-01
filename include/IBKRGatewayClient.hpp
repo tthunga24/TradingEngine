@@ -33,6 +33,11 @@ public:
     void request_market_data(TickerId tickerId, const Contract& contract);
     void place_order(OrderId orderId, const Contract& contract, const ::Order& order);
     void subscribe_to_market_data(const std::string& topic);
+    
+    void request_historical_data(const std::string& symbol, const std::string& end_date_time, const std::string& duration, const std::string& bar_size);
+
+    void historicalData(TickerId reqId, const ::Bar& bar) override;
+    void historicalDataEnd(int reqId, const std::string& startDateStr, const std::string& endDateStr) override;
 
 private:
     void process_messages();
@@ -63,7 +68,6 @@ private:
     void updateNewsBulletin(int msgId, int msgType, const std::string& newsMessage, const std::string& originExch) override;
     void managedAccounts(const std::string& accountsList) override;
     void receiveFA(faDataType pFaDataType, const std::string& cxml) override;
-    void historicalData(TickerId reqId, const Bar& bar) override;
     void scannerParameters(const std::string& xml) override;
     void scannerData(int reqId, int rank, const ContractDetails& contractDetails, const std::string& distance, const std::string& benchmark, const std::string& projection, const std::string& legsStr) override;
     void scannerDataEnd(int reqId) override;
@@ -94,7 +98,6 @@ private:
     void softDollarTiers(int reqId, const std::vector<SoftDollarTier>& tiers) override;
     void familyCodes(const std::vector<FamilyCode>& familyCodes) override;
     void symbolSamples(int reqId, const std::vector<ContractDescription>& contractDescriptions) override;
-    void historicalDataEnd(int reqId, const std::string& startDateStr, const std::string& endDateStr) override;
     void mktDepthExchanges(const std::vector<DepthMktDataDescription>& depthMktDataDescriptions) override;
     void tickNews(int tickerId, time_t timeStamp, const std::string& providerCode, const std::string& articleId, const std::string& headline, const std::string& extraData) override;
     void smartComponents(int reqId, const SmartComponentsMap& theMap) override;
@@ -105,7 +108,7 @@ private:
     void historicalNewsEnd(int requestId, bool hasMore) override;
     void headTimestamp(int reqId, const std::string& headTimestamp) override;
     void histogramData(int reqId, const HistogramDataVector& data) override;
-    void historicalDataUpdate(TickerId reqId, const Bar& bar) override;
+    void historicalDataUpdate(TickerId reqId, const ::Bar& bar) override;
     void rerouteMktDataReq(int reqId, int conid, const std::string& exchange) override;
     void rerouteMktDepthReq(int reqId, int conid, const std::string& exchange) override;
     void marketRule(int marketRuleId, const std::vector<PriceIncrement>& priceIncrements) override;
@@ -137,6 +140,8 @@ private:
     std::string m_host;
     int m_port;
     int m_client_id;
+    long m_next_valid_order_id;
+    std::map<long, std::string> m_reqId_to_symbol_map;
     OrderId m_next_valid_id;
     std::atomic<TickerId> m_next_ticker_id;
     std::atomic<bool> m_is_connected;
